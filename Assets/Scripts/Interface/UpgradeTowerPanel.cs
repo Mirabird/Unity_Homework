@@ -19,7 +19,7 @@ namespace Netologia.TowerDefence.Interface
 
 		public void SetTarget(Tower tower)
 		{
-			_header.text = string.Format(c_upgradeTableHeader, tower.Level);
+			_header.text = string.Format(c_upgradeTableHeader, tower.Level +1);
 
 			if (_stats is null)
 				CreateStatsLines();

@@ -42,7 +42,39 @@ namespace Netologia.Systems
 
 		public void ManualUpdate()
 		{
-			//todo Netologia homework 
+			var delta = TimeManager.DeltaTime;
+			var time = TimeManager.Time;
+			foreach (var pool in this)
+			foreach (var unit in pool)
+			{
+				var transform = unit.transform;
+				var position = transform.position;
+				if (unit.CurrentHealth <= 0f)
+				{
+					OnDespawnUnitHandler.Invoke(unit.ID);
+					DespawnUnit(unit, in position);
+					continue;
+				}
+				unit.Visual.ManualUpdate(delta);
+				unit.CurrentHealth -= unit.Stats.Health *
+				                      unit.CountEffect(ElementalType.Fire) * _constants.FireDebuffDamageMult;
+				unit.TryRemoveEffect(time, ElementalType.Fire);
+				unit.TryRemoveEffect(time, ElementalType.Ice);
+
+				var point = _path[unit.PathIndex];
+				position += Vector3.Normalize(point - position) * (unit.MoveSpeed * delta);
+				transform.position = position;
+
+				if (Vector3.SqrMagnitude(position - point) <= _arrivalDistance)
+				{
+					unit.PathIndex++;
+					if (unit.PathIndex >= _path.Length)
+					{
+						_director.AddPlayerDamage(_constants.UnitDamage);
+						this[unit.Ref].ReturnElement(unit.ID);
+					}
+				}
+			}
 		}
 
 		private void DespawnUnit(Unit unit, in Vector3 position)

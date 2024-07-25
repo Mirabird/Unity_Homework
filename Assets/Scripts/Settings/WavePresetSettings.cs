@@ -30,7 +30,7 @@ namespace Netologia.TowerDefence.Settings
 
 		public int Count => _sea.Count;
 
-		public Wave this[int index] => _sea[Mathf.Clamp(index, 0, _sea.Count - 1)];
+		public Wave this[int index] => _sea[index];  //[Mathf.Clamp(index, 0, _sea.Count - 1)];
 		public Pack this[int wave, int pack] => this[wave].Packs[pack];
 		
 		public IEnumerator<Wave> GetEnumerator()

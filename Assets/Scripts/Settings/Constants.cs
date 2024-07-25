@@ -9,7 +9,10 @@ namespace Netologia.TowerDefence.Settings
 		[field: Range(0f, 1f), Header("---Common Constants---")]
 		public float SellPercent { get; private set; } = .7f;
 
-		
+		[field: SerializeField, Tooltip("Кол-во урона за одного пройденного юнита к выходу")]
+		[field: Min(1f)]
+
+		public int UnitDamage { get; private set; } = 1;
 		
 		[field: SerializeField, Tooltip("Множитель дебафа на скорость юнитов от ледяного эффекта")]
 		[field: Range(0f, 1f), Header("---Ice Elemental debuff---"), Space(15f)]
